@@ -11,7 +11,7 @@ def get_file_size(filename):
 
 def generate_dummy_file(filename,size):
 	with open(filename,'w') as dummy:
-		for i in xrange(1024):
+		for i in range(1024):
 			dummy.write((size*1024*1024)*'0')
 
 def get_filename_without_extension(name):
@@ -27,7 +27,7 @@ def compress_file(infile,outfile):
 
 def make_copies_and_compress(infile, outfile, n_copies):
 	zf = zipfile.ZipFile(outfile, mode='w', allowZip64= True)
-	for i in xrange(n_copies):
+	for i in range(n_copies):
 		f_name = '%s-%d.%s' % (get_filename_without_extension(infile),i,get_extension(infile))
 		shutil.copy(infile,f_name)
 		zf.write(f_name, compress_type=zipfile.ZIP_DEFLATED)
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 	compress_file(dummy_name, level_1_zip)
 	os.remove(dummy_name)
 	decompressed_size = 1
-	for i in xrange(1,n_levels+1):
+	for i in range(1,n_levels+1):
 		make_copies_and_compress('%d.zip'%i,'%d.zip'%(i+1),10)
 		decompressed_size *= 10
 		os.remove('%d.zip'%i)
