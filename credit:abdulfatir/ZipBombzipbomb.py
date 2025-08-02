@@ -9,10 +9,9 @@ def get_file_size(filename):
 	st = os.stat(filename)
 	return st.st_size
 
-def generate_dummy_file(filename,size):
-	with open(filename,'w') as dummy:
-		for i in range(1024):
-			dummy.write((size*1024*1024)*'\0')
+def generate_dummy_file(filename):
+    with open(filename, 'wb') as f:
+        f.write(b'\0' * 1024 * 1024)  # 1MB of sparse null bytes
 
 def get_filename_without_extension(name):
 	return name[:name.rfind('.')]
@@ -43,7 +42,7 @@ if __name__ == '__main__':
 	out_zip_file = sys.argv[2]
 	dummy_name = 'dummy.txt'
 	start_time = time.time()
-	generate_dummy_file(dummy_name,1)
+	generate_dummy_file(dummy_name)
 	level_1_zip = '1.zip'
 	compress_file(dummy_name, level_1_zip)
 	os.remove(dummy_name)
