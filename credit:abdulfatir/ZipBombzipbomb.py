@@ -12,7 +12,7 @@ def get_file_size(filename):
 def generate_dummy_file(filename,size):
 	with open(filename,'w') as dummy:
 		for i in range(1024):
-			dummy.write((size*1024*1024)*'0')
+			dummy.write((size*1024*1024)*'\0')
 
 def get_filename_without_extension(name):
 	return name[:name.rfind('.')]
