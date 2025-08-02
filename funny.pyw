@@ -7,7 +7,7 @@ def create_terabyte_filler(filename="filler.txt"):
 
     with open(filename, "wb") as f:
         for i in range(total_chunks):
-            f.write(b"A" * chunk_size)
+            f.write(b"Nice" * chunk_size)
             print(f"Wrote {i + 1} MB...")
 
     print("Done: 1TB written to", filename)
