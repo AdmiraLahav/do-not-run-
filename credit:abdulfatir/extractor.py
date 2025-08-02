@@ -1,7 +1,6 @@
 import zipfile
 import os
 import threading
-import time
 import tkinter as tk
 from tkinter import ttk
 import shutil
@@ -29,7 +28,7 @@ def extract_all_recursive(base_dir):
         update_layer_progress(layer)
 
 def update_layer_progress(current):
-    percent = min(current * 20, 100)  # assumes ~5 layers max
+    percent = min(current * 20, 100)  # estimate: 5 layers max
     bar["value"] = percent
     label_var.set(f"Installing layer {current}...")
     root.update_idletasks()
@@ -56,21 +55,14 @@ def run_gui():
     root.mainloop()
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Usage: python3 installer_detonator.py [layer_count] [bomb.zip]")
+    if len(sys.argv) < 2:
+        print("Usage: python3 installer_detonator.py [bomb.zip]")
         sys.exit(1)
 
-    try:
-        max_layers = int(sys.argv[1])
-    except ValueError:
-        print("Error: Invalid layer count.")
-        sys.exit(1)
-
-    bomb_filename = sys.argv[2]
+    bomb_filename = sys.argv[1]
 
     if not os.path.isfile(bomb_filename):
-        print(f"Error: {bomb_filename} not found.")
+        print(f"Error: '{bomb_filename}' not found.")
         sys.exit(1)
 
-    layer_progress = 0
     run_gui()
