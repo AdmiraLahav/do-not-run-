@@ -125,7 +125,17 @@ def run_gui():
 
     label_var = tk.StringVar(value="Waiting to start...")
     label_var = tk.StringVar(value="size tables:
-    1-40kb")
+    1-40kb
+    2-400kb
+    3-3.90mb
+    4-39mb
+    5-390mb
+    6-3.90 GB
+    7-39 GB
+    8-390 GB
+    9-3.90 TB
+    10-39 TB
+    11-390 TB)
     ttk.Label(root, textvariable=label_var).pack(pady=5)
 
     bar = ttk.Progressbar(root, length=250, mode='determinate', maximum=100)
