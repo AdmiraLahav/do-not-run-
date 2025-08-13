@@ -116,7 +116,7 @@ def on_start():
 def run_gui():
     global root, bar, label_var, n_layers_var
     root = tk.Tk()
-    root.title("Educational ZIP Layer Demo")
+    root.title("zip bomb initiator")
     root.geometry("350x180")
 
     ttk.Label(root, text="Number of layers:").pack(pady=(10, 0))
@@ -124,6 +124,7 @@ def run_gui():
     ttk.Entry(root, textvariable=n_layers_var, width=10).pack(pady=5)
 
     label_var = tk.StringVar(value="Waiting to start...")
+    label_var = tk.StringVar(value="size tables:")
     ttk.Label(root, textvariable=label_var).pack(pady=5)
 
     bar = ttk.Progressbar(root, length=250, mode='determinate', maximum=100)
