@@ -119,7 +119,7 @@ def run_gui():
     root.title("zip bomb initiator")
     root.geometry("350x180")
 
-    ttk.Label(root, text="Number of layers:").pack(pady=(10, 0))
+    ttk.Label(root, text="Number of layers:    5-97Gb").pack(pady=(10, 0))
     n_layers_var = tk.StringVar(value="5")
     ttk.Entry(root, textvariable=n_layers_var, width=10).pack(pady=5)
 
