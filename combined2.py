@@ -124,7 +124,6 @@ def run_gui():
     ttk.Entry(root, textvariable=n_layers_var, width=10).pack(pady=5)
 
     label_var = tk.StringVar(value="Waiting to start...")
-    #label_var = tk.StringVar(value="size tables:5-390mb    and jumps 10x onward")
     ttk.Label(root, textvariable=label_var).pack(pady=5)
 
     bar = ttk.Progressbar(root, length=250, mode='determinate', maximum=100)
